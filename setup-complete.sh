@@ -52,15 +52,27 @@ echo "📋 Installing Ghostty configuration..."
 rsync -av --exclude='.git' \
     --exclude='README*.md' \
     --exclude='QUICKSTART.md' \
-    --exclude='MAC-MINI-SETUP.md' \
-    --exclude='CLAUDE.md' \
+    --exclude='CONTRIBUTING.md' \
+    --exclude='FEATURE_COMPARISON.md' \
+    --exclude='IMPROVEMENTS.md' \
+    --exclude='LICENSE' \
     --exclude='Brewfile' \
-    --exclude='*.sh' \
-    --exclude='zshrc-*' \
+    --exclude='install-deps.sh' \
+    --exclude='install-fonts.sh' \
+    --exclude='setup.sh' \
+    --exclude='setup-complete.sh' \
+    --exclude='sync-to-repo.sh' \
+    --exclude='sync-from-repo.sh' \
+    --exclude='zshrc-*.sh' \
+    --exclude='specs/' \
+    --exclude='PROMPT.md' \
+    --exclude='IMPLEMENTATION_PLAN.md' \
+    --exclude='.claude/' \
     "$SCRIPT_DIR/" "$GHOSTTY_CONFIG_DIR/"
 
 # Make scripts executable
-chmod +x "$GHOSTTY_CONFIG_DIR"/*.sh 2>/dev/null || true
+chmod +x "$GHOSTTY_CONFIG_DIR/switch-config.sh"
+chmod +x "$GHOSTTY_CONFIG_DIR/interactive-config.sh"
 chmod +x "$GHOSTTY_CONFIG_DIR/gconfig"
 
 echo "✅ Ghostty configuration installed"
