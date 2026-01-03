@@ -116,11 +116,12 @@ fuck        # Auto-corrects to: git push
 
 ## Documentation
 
+- [IMPROVEMENTS.md](IMPROVEMENTS.md) - Changelog & release notes
+- [FEATURE_COMPARISON.md](FEATURE_COMPARISON.md) - Detailed Warp comparison
+- [QUICKSTART.md](QUICKSTART.md) - Quick reference
 - [ai/README.md](ai/README.md) - AI tool recommendations
 - [workflows/README.md](workflows/README.md) - Workflow snippets guide
 - [tmux/README.md](tmux/README.md) - Session management
-- [FEATURE_COMPARISON.md](FEATURE_COMPARISON.md) - Detailed Warp comparison
-- [QUICKSTART.md](QUICKSTART.md) - Quick reference
 
 ## Sync Across Machines
 

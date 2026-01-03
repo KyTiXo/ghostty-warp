@@ -57,6 +57,11 @@ fuck, fix
 - Revised FEATURE_COMPARISON.md (~85% parity)
 - New ai/README.md, workflows/README.md, tmux/README.md
 
+### Bug Fixes
+- **Fixed #1**: Removed deprecated `homebrew/cask-fonts` tap - Nerd Fonts now install from main cask
+- **Fixed #2**: `setup-complete.sh` now copies required scripts (`switch-config.sh`, `interactive-config.sh`)
+- Preset commands (`gcyber`, `gminimal`, etc.) now work correctly after setup
+
 ---
 
 ## v1.1 - October 27, 2025
