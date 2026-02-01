@@ -8,11 +8,11 @@
 # Tokyo Night Theme - CORRECTED
 theme = TokyoNight
 
-# JetBrains Mono Nerd Font - optimizado para ASCII art, Unicode y ligatures
-font-family = JetBrainsMono Nerd Font Mono
+# Monaspace Neon (GitHub) - texture healing, modern ligatures
+font-family = MonaspiceNe Nerd Font Mono
 font-size = 13
 font-thicken = true
-font-feature = +calt,+liga
+font-feature = +calt,+liga,+ss01,+ss02,+ss03,+ss04,+ss05,+ss06,+ss07,+ss08
 
 # Optimizaciones para renderizado de caracteres Unicode y ASCII art
 adjust-box-thickness = 1
