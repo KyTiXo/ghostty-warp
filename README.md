@@ -1,40 +1,31 @@
-# Ghostty Warp - Modern Terminal Configuration
+# Ghostty Warp — Modern Terminal Configuration
 
-A modern terminal setup using **Ghostty** with curated open-source tools. Inspired by Warp Terminal, but fully open source and privacy-focused.
+A modern terminal setup using **Ghostty** with curated open-source tools. Originally inspired by Warp Terminal's productivity features, rebuilt fully open source for **Linux** (CachyOS/Arch + Hyprland).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform: macOS](https://img.shields.io/badge/Platform-macOS-blue.svg)]()
+[![Platform: Linux](https://img.shields.io/badge/Platform-Linux-blue.svg)]()
+[![WM: Hyprland](https://img.shields.io/badge/WM-Hyprland-cyan.svg)]()
 
 ## Why This Exists
 
-Get Warp's productivity features without:
-- Proprietary software
-- Telemetry
-- Cloud dependency
-- Subscription fees
+Get Warp's productivity features without proprietary software, telemetry, cloud dependency, or subscription fees.
 
 ## Features
 
 ### Core Productivity
-- **Auto-suggestions** (zsh-autosuggestions) - Fish-like command suggestions
-- **Syntax highlighting** (zsh-syntax-highlighting) - Real-time validation
-- **Fuzzy search** (fzf) - Fast history and file search
-- **Smart navigation** (zoxide) - Jump to directories instantly
-- **Advanced history** (atuin) - Cross-session searchable history
-- **Beautiful prompt** (starship) - Git integration & modern styling
 
-### v2.0: Warp Parity Features
-
-- **Workflow Snippets** (pet) - Parameterized command snippets, like Warp Workflows
-- **Command Corrections** (thefuck) - Auto-fix typos and failed commands
-- **Session Management** (tmux) - Splits, panes, persistent sessions
-- **Terminal Sharing** (tmate) - Share your terminal via URL
-- **AI Integration** - Works with Claude Code, aider, Gemini CLI (see [ai/README.md](ai/README.md))
+- **Auto-suggestions** (zsh-autosuggestions) — Fish-like command suggestions
+- **Syntax highlighting** (zsh-syntax-highlighting) — Real-time validation
+- **Fuzzy search** (fzf) — Fast history and file search
+- **Smart navigation** (zoxide) — Jump to directories instantly
+- **Beautiful prompt** (starship) — Git integration & modern styling
+- **Session management** (tmux) — Splits, panes, persistent sessions
 
 ### Customization
-- **4 Presets**: Cyberpunk Dev, Minimal Focus, Cozy Coding, Professional
+
+- **4 Presets**: Cyberpunk Dev, Minimal Focus, Cozy Coding, Professional Elegant
 - **5 Themes**: Tokyo Night, Catppuccin Mocha, Dracula, Nord, Gruvbox
-- **5 Fonts**: Monaspace Neon (default), JetBrains Mono, Fira Code, Cascadia Code, Iosevka
+- **5 Fonts**: JetBrains Mono, Fira Code, Cascadia Code, Iosevka, Monaspace Neon
 
 ## Quick Start
 
@@ -43,113 +34,121 @@ Get Warp's productivity features without:
 git clone https://github.com/Arakiss/ghostty-warp.git
 cd ghostty-warp
 
-# Install dependencies
-./install-deps.sh
+# Copy to ghostty config
+cp -r themes presets fonts tmux gconfig ~/.config/ghostty/
+chmod +x ~/.config/ghostty/gconfig
 
-# Setup everything
-./setup-complete.sh
+# Add to PATH
+ln -sf ~/.config/ghostty/gconfig ~/.local/bin/gconfig
 ```
 
-**Prerequisites**: macOS, [Ghostty](https://ghostty.org), [Homebrew](https://brew.sh)
+**Prerequisites**: Linux, [Ghostty](https://ghostty.org), Nerd Fonts (JetBrainsMono recommended)
 
 ## Usage
 
-### Switch Presets
+### Switch Presets (full theme + font combos)
+
 ```bash
-gcyber      # Tokyo Night + JetBrains Mono
-gminimal    # Nord + Iosevka
-gcozy       # Gruvbox + JetBrains Mono
-gpro        # Dracula + Cascadia Code
+gconfig cyber       # Tokyo Night + Fira Code (futuristic)
+gconfig minimal     # Nord + Iosevka (distraction-free)
+gconfig cozy        # Gruvbox + JetBrains Mono (comfortable)
+gconfig pro         # Dracula + Cascadia Code (professional)
 ```
 
-### Workflow Snippets (pet)
+### Switch Themes
+
 ```bash
-pw          # Search workflows
-pe          # Execute workflow
-pn          # New snippet
-pl          # List all
+gconfig theme tokyo-night
+gconfig theme catppuccin-mocha
+gconfig theme dracula
+gconfig theme nord
+gconfig theme gruvbox
 ```
 
-### Command Corrections
+### Switch Fonts
+
 ```bash
-git pussh   # Typo
-fuck        # Auto-corrects to: git push
+gconfig font jetbrains-mono
+gconfig font fira-code
+gconfig font cascadia-code
+gconfig font iosevka
+gconfig font monaspace-neon
 ```
 
-### Key Features
-- `CTRL-R` - Fuzzy history search
-- `z <dir>` - Jump to directory
-- Type command → see suggestion → press `→` to accept
+### Other Commands
 
-### Keyboard Shortcuts
+```bash
+gconfig status      # Show current configuration
+gconfig reset       # Restore default config
+gconfig             # Show help
+```
 
-**Navigation**
-- `Cmd+K` - Clear screen
-- `Cmd+T` - New tab
-- `Cmd+1-9` - Jump to tab
+### Keyboard Shortcuts (Linux)
+
+**Clipboard**
+
+- `Ctrl+Shift+C` — Copy
+- `Ctrl+Shift+V` — Paste
+
+**Tabs**
+
+- `Ctrl+Shift+T` — New tab
+- `Ctrl+Shift+W` — Close tab
+- `Ctrl+Shift+1-9` — Jump to tab
+- `Ctrl+Tab` / `Ctrl+Shift+Tab` — Cycle tabs
 
 **Splits**
-- `Cmd+D` - Vertical split
-- `Cmd+Shift+D` - Horizontal split
-- `Cmd+Shift+Enter` - Toggle zoom
+
+- `Ctrl+Shift+D` — Vertical split
+- `Ctrl+Shift+O` — Horizontal split
+- `Ctrl+Shift+Z` — Toggle zoom
+- `Ctrl+Shift+Arrow` — Navigate splits
 
 **Font Size**
-- `Cmd++` / `Cmd+-` - Increase/Decrease
-- `Cmd+0` - Reset
+
+- `Ctrl++` / `Ctrl+-` — Increase/Decrease
+- `Ctrl+0` — Reset
+
+## tmux Integration
+
+A matching tmux config with Tokyo Night colors and Wayland clipboard support:
+
+```bash
+ln -sf ~/.config/ghostty/tmux/tmux.conf ~/.tmux.conf
+```
+
+Features: vim keybindings, `|` and `-` for splits, mouse support, `wl-copy` integration.
+
+## Hyprland Notes
+
+The config includes `async-backend = epoll` to fix rendering performance issues with Ghostty on Hyprland. See [ghostty#3224](https://github.com/ghostty-org/ghostty/discussions/3224).
 
 ## Comparison with Warp
 
-| Feature | Warp | Ghostty Warp |
-|---------|------|--------------|
-| Auto-suggestions | Yes | Yes |
-| Syntax highlighting | Yes | Yes |
-| Fuzzy history | Cloud | Local (atuin) |
-| Workflows | Yes | Yes (pet) |
-| Command corrections | Yes | Yes (thefuck) |
-| Session management | Yes | Yes (tmux) |
-| Terminal sharing | Cloud | SSH (tmate) |
-| AI features | Built-in | BYOK (see ai/) |
-| Open source | No | Yes |
-| Offline | No | Yes |
-| Telemetry | Yes | None |
-| Cost | Subscription | Free |
-
-## Documentation
-
-- [IMPROVEMENTS.md](IMPROVEMENTS.md) - Changelog & release notes
-- [FEATURE_COMPARISON.md](FEATURE_COMPARISON.md) - Detailed Warp comparison
-- [QUICKSTART.md](QUICKSTART.md) - Quick reference
-- [ai/README.md](ai/README.md) - AI tool recommendations
-- [workflows/README.md](workflows/README.md) - Workflow snippets guide
-- [tmux/README.md](tmux/README.md) - Session management
-
-## Sync Across Machines
-
-```bash
-# Machine 1: Push changes
-./sync-to-repo.sh "Update config"
-git push
-
-# Machine 2: Pull changes
-./sync-from-repo.sh
-```
+| Feature             | Warp         | Ghostty Warp     |
+| ------------------- | ------------ | ---------------- |
+| Auto-suggestions    | Yes          | Yes (zsh plugin) |
+| Syntax highlighting | Yes          | Yes (zsh plugin) |
+| Fuzzy history       | Cloud        | Local (fzf)      |
+| Session management  | Yes          | Yes (tmux)       |
+| Open source         | No           | Yes              |
+| Offline             | No           | Yes              |
+| Telemetry           | Yes          | None             |
+| Cost                | Subscription | Free             |
 
 ## Tech Stack
 
-- [Ghostty](https://ghostty.org) - Terminal emulator
-- [Oh My Zsh](https://ohmyz.sh) - Zsh framework
-- [Starship](https://starship.rs) - Prompt
-- [fzf](https://github.com/junegunn/fzf) - Fuzzy finder
-- [zoxide](https://github.com/ajeetdsouza/zoxide) - Smart cd
-- [atuin](https://atuin.sh) - Shell history
-- [pet](https://github.com/knqyf263/pet) - Snippet manager
-- [thefuck](https://github.com/nvbn/thefuck) - Command corrections
-- [tmux](https://github.com/tmux/tmux) - Terminal multiplexer
+- [Ghostty](https://ghostty.org) — Terminal emulator
+- [Starship](https://starship.rs) — Prompt
+- [fzf](https://github.com/junegunn/fzf) — Fuzzy finder
+- [zoxide](https://github.com/ajeetdsouza/zoxide) — Smart cd
+- [tmux](https://github.com/tmux/tmux) — Terminal multiplexer
+- [Nerd Fonts](https://www.nerdfonts.com) — Patched fonts with icons
 
 ## License
 
-MIT - Use however you want.
+MIT — Use however you want.
 
 ---
 
-**Built for productivity.** Open source. Privacy-first.
+**Built for productivity.** Open source. Privacy-first. Linux-native.
