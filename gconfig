@@ -91,15 +91,23 @@ apply_preset() {
         return 1
     fi
 
-    # Build new config: header + preset values + includes
+    # Resolve platform and keybind configs
+    local platform_conf="$GHOSTTY_DIR/platform/current.conf"
+    local keybinds_conf="$GHOSTTY_DIR/keybinds/current.conf"
+    local omarchy_conf="$HOME/.config/omarchy/current/theme/ghostty.conf"
+
+    # Build new config: header + preset values + inlined platform/keybinds
     {
         echo "# Ghostty Configuration — Cross-Platform"
         echo "# Active preset: $1"
         echo "# Managed via gconfig | Supports Linux and macOS"
         echo ""
-        echo "# Dynamic theme colors (omarchy theme system)"
-        echo "config-file = ?\"~/.config/omarchy/current/theme/ghostty.conf\""
-        echo ""
+        # Inline omarchy theme if present
+        if [[ -f "$omarchy_conf" ]]; then
+            echo "# Dynamic theme colors (omarchy theme system)"
+            cat "$omarchy_conf"
+            echo ""
+        fi
         cat "$preset_file"
         echo ""
         echo "# Mouse"
@@ -116,11 +124,17 @@ apply_preset() {
         echo "# Shell integration"
         echo "shell-integration-features = no-cursor,ssh-env"
         echo ""
-        echo "# Platform-specific settings (auto-detected by gconfig setup)"
-        echo "config-file = ?\"~/.config/ghostty/platform/current.conf\""
-        echo ""
-        echo "# Keybinds (auto-detected by gconfig setup)"
-        echo "config-file = ?\"~/.config/ghostty/keybinds/current.conf\""
+        # Inline platform settings
+        if [[ -f "$platform_conf" ]]; then
+            echo "# Platform-specific settings ($PLATFORM)"
+            cat "$platform_conf"
+            echo ""
+        fi
+        # Inline keybinds
+        if [[ -f "$keybinds_conf" ]]; then
+            echo "# Keybinds ($PLATFORM)"
+            cat "$keybinds_conf"
+        fi
     } > "$CONFIG_FILE"
 
     echo -e "${GREEN}Applied preset: ${BOLD}$1${NC}"
@@ -138,12 +152,18 @@ apply_theme() {
     theme_name=$(grep '^theme' "$theme_file" | head -1 | cut -d= -f2 | xargs)
     selection_bg=$(grep '^selection-background' "$theme_file" | head -1 | cut -d= -f2 | xargs)
 
-    sed -i "s/^theme = .*/theme = $theme_name/" "$CONFIG_FILE"
+    if [[ "$PLATFORM" == "macos" ]]; then
+        local SED_I=(sed -i '')
+    else
+        local SED_I=(sed -i)
+    fi
+    "${SED_I[@]}" "s/^theme = .*/theme = $theme_name/" "$CONFIG_FILE"
     if [ -n "$selection_bg" ]; then
         if grep -q '^selection-background' "$CONFIG_FILE"; then
-            sed -i "s/^selection-background = .*/selection-background = $selection_bg/" "$CONFIG_FILE"
+            "${SED_I[@]}" "s/^selection-background = .*/selection-background = $selection_bg/" "$CONFIG_FILE"
         else
-            sed -i "/^theme = /a selection-background = $selection_bg" "$CONFIG_FILE"
+            "${SED_I[@]}" "/^theme = /a\\
+selection-background = $selection_bg" "$CONFIG_FILE"
         fi
     fi
 
@@ -163,13 +183,19 @@ apply_font() {
     font_thicken=$(grep '^font-thicken' "$font_file" | head -1 | cut -d= -f2 | xargs)
     font_feature=$(grep '^font-feature' "$font_file" | head -1 | cut -d= -f2 | xargs)
 
-    sed -i "s/^font-family = .*/font-family = \"$font_family\"/" "$CONFIG_FILE"
-    sed -i "s/^font-thicken = .*/font-thicken = $font_thicken/" "$CONFIG_FILE"
+    if [[ "$PLATFORM" == "macos" ]]; then
+        local SED_I=(sed -i '')
+    else
+        local SED_I=(sed -i)
+    fi
+    "${SED_I[@]}" "s/^font-family = .*/font-family = \"$font_family\"/" "$CONFIG_FILE"
+    "${SED_I[@]}" "s/^font-thicken = .*/font-thicken = $font_thicken/" "$CONFIG_FILE"
     if [ -n "$font_feature" ]; then
         if grep -q '^font-feature' "$CONFIG_FILE"; then
-            sed -i "s/^font-feature = .*/font-feature = $font_feature/" "$CONFIG_FILE"
+            "${SED_I[@]}" "s/^font-feature = .*/font-feature = $font_feature/" "$CONFIG_FILE"
         else
-            sed -i "/^font-thicken/a font-feature = $font_feature" "$CONFIG_FILE"
+            "${SED_I[@]}" "/^font-thicken/a\\
+font-feature = $font_feature" "$CONFIG_FILE"
         fi
     fi
 
